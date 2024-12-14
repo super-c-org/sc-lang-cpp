@@ -2,5 +2,5 @@
 
 int main()
 {
-    std::cout << "Hello, from c-compiler!\n";
+    std::cout << "Hello, from super-c-compiler!\n";
 }
