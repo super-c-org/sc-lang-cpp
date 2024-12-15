@@ -1,20 +1,24 @@
 cmake_minimum_required(VERSION 3.30.0)
-project(super-c VERSION 0.1.0 LANGUAGES C CXX)
+project(scc VERSION 0.1.0 LANGUAGES C CXX)
 
 # C++ requirements
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+
+add_library(calculator src/calc.cpp)
+
 # target: compiler
-add_executable(super-c)
-target_include_directories(super-c PRIVATE
+add_executable(scc)
+target_include_directories(scc PRIVATE
   src
-        )
-target_sources(super-c PRIVATE
+)
+target_sources(scc PRIVATE
   src/main.cpp)
-target_link_libraries(super-c PRIVATE
- )
+target_link_libraries(scc PRIVATE
+  calculator
+)
 
 # testing
 Include(FetchContent)
@@ -26,19 +30,27 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(Catch2)
-list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/cmake)
+
+add_executable(sc_test)
+target_include_directories(sc_test PRIVATE
+  src
+)
+target_sources(sc_test PRIVATE
+  test/test_calc.cpp
+)
+target_link_libraries(sc_test PRIVATE 
+  calculator
+  Catch2::Catch2WithMain
+)
 
 include(CTest)
 include(Catch)
-enable_testing()
+catch_discover_tests(sc_test)
 
-add_executable(sc-tests test_calc.cpp)
-target_include_directories(sc-tests PRIVATE
-  src
-)
-target_link_libraries(sc-tests PRIVATE Catch2::Catch2WithMain)
-catch_discover_tests(sc_tests)
+enable_testing()
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+
 include(CPack)
