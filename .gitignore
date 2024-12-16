@@ -32,4 +32,5 @@
 *.app
 
 # CMake files
-**/build
+build/
+.cache/
