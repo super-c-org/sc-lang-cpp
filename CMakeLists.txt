@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 
+# for test purpose
 add_library(calculator src/calc.cpp)
 
 # target: compiler
@@ -30,7 +31,7 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(Catch2)
-list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/cmake)
+list(APPEND CMAKE_MODULE_PATH ${catch2_SOURCE_DIR}/extras)
 
 add_executable(sc_test)
 target_include_directories(sc_test PRIVATE
@@ -47,8 +48,8 @@ target_link_libraries(sc_test PRIVATE
 include(CTest)
 include(Catch)
 catch_discover_tests(sc_test)
-
 enable_testing()
+
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
