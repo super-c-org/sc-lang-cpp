@@ -38,7 +38,7 @@ target_include_directories(sc_test PRIVATE
   src
 )
 target_sources(sc_test PRIVATE
-  test/test_calc.cpp
+  src/test_calc.cpp
 )
 target_link_libraries(sc_test PRIVATE 
   calculator
