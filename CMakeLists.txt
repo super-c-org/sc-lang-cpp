@@ -24,10 +24,11 @@ target_include_directories(scc PRIVATE
   ${LLVM_INCLUDE_DIRS}
 )
 target_sources(scc PRIVATE
-  src/main.cpp)
+  src/main.cpp
+)
 target_link_libraries(scc PRIVATE
   calculator
-  ${llvm_libs}
+  ${LLVM_LIBS}
 )
 
 # Testing
