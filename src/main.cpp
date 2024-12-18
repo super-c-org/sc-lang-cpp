@@ -1,6 +1,5 @@
-#include <iostream>
 
-int main()
+auto main(int argc, char* argv[]) -> int
 {
-    std::cout << "Hello, from super-c-compiler!\n";
+    return 0;
 }
