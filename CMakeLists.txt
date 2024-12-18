@@ -6,22 +6,31 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+# LLVM config
+find_package(LLVM REQUIRED CONFIG)
 
-# for test purpose
+message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
+message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
+
+llvm_map_components_to_libnames(LLVM_LIBS support core)
+
+# Libraries
 add_library(calculator src/calc.cpp)
 
-# target: compiler
+# Compiler target
 add_executable(scc)
 target_include_directories(scc PRIVATE
   src
+  ${LLVM_INCLUDE_DIRS}
 )
 target_sources(scc PRIVATE
   src/main.cpp)
 target_link_libraries(scc PRIVATE
   calculator
+  ${llvm_libs}
 )
 
-# testing
+# Testing
 Include(FetchContent)
 
 FetchContent_Declare(
@@ -50,7 +59,7 @@ include(Catch)
 catch_discover_tests(sc_test)
 enable_testing()
 
-
+#Packing
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 
