@@ -40,7 +40,7 @@
                 "deb"
             ],
             "cacheVariables": {
-                "CMAKE_CXX_FLAGS": "-O0 --coverage -g -fsanitize=address -fstandalone-debug -fno-rtti -fno-exceptions",
+                "CMAKE_CXX_FLAGS": "-O0 -g -fsanitize=address -fstandalone-debug -fno-rtti -fno-exceptions",
                 "CMAKE_INSTALL_PREFIX": "${sourceDir}/build/clang-deb-ninja/install"
             }
         },
