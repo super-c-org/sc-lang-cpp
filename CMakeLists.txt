@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.30.0)
-project(scc VERSION 0.1.0 LANGUAGES C CXX)
+project(super_c_compiler VERSION 0.1.0 LANGUAGES C CXX)
 
 # C++ requirements
 set(CMAKE_CXX_STANDARD 23)
