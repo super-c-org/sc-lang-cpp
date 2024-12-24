@@ -9,7 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 # LLVM config
 find_package(LLVM REQUIRED CONFIG)
 
-message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}")
+message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}, build type ${LLVM_BUILD_TYPE}")
 message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
 
 llvm_map_components_to_libnames(LLVM_LIBS support core)
