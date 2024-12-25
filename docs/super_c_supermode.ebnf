@@ -1,0 +1,34 @@
+// Super C language super mode grammar
+//
+// W3C's EBNF notation https://www.w3.org/TR/2008/REC-xml-20081126/#sec-notation
+// To generate diagram at https://www.bottlecaps.de/rr/ui
+
+SourceFile    ::= TopLevelDecl+
+
+//Declarations
+TopLevelDecl  ::= FunctionDecl
+
+FunctionDecl  ::= "fn" FunctionName TypeParameters? Signature TypeConstraints? FunctionBody?
+FunctionName  ::= identifier
+FunctionBody  ::= Block
+
+//.Type parameter declarations
+TypeParameters ::= "$" "(" TypeParamList ")"
+TypeParamList  ::= IdentifierList 
+
+IdentifierList ::= identifier ("," identifier)*
+
+TypeConstraints ::= "where" TypeConstraint ("," TypeConstraint)*
+TypeConstraint  ::= identifier ":" Type
+
+//Types
+
+//.Function types
+FunctionType  ::= "fn" Signature
+Signature     ::= Parameters Result?
+Result        ::= "->" Type
+Parameters    ::= "(" ParameterList? ")"
+ParameterList ::= ParameterDecl ("," ParameterDecl)*
+ParameterDecl ::= identifier ":" Type
+
+
