@@ -1,7 +1,7 @@
 // Super C language super mode grammar
 //
 // W3C's EBNF notation https://www.w3.org/TR/2008/REC-xml-20081126/#sec-notation
-// To generate diagram at https://www.bottlecaps.de/rr/ui
+// Generate diagram at https://www.bottlecaps.de/rr/ui
 
 SourceFile    ::= TopLevelDecl+
 
@@ -13,10 +13,8 @@ FunctionName  ::= identifier
 FunctionBody  ::= Block
 
 //.Type parameter declarations
-TypeParameters ::= "$" "(" TypeParamList ")"
-TypeParamList  ::= IdentifierList 
-
-IdentifierList ::= identifier ("," identifier)*
+TypeParameters ::= "$" "(" TypeParameter ("," TypeParemeter)* ")"
+TypeParameter  ::= identifer (":" Type)?
 
 TypeConstraints ::= "where" TypeConstraint ("," TypeConstraint)*
 TypeConstraint  ::= identifier ":" Type
@@ -29,6 +27,6 @@ Signature     ::= Parameters Result?
 Result        ::= "->" Type
 Parameters    ::= "(" ParameterList? ")"
 ParameterList ::= ParameterDecl ("," ParameterDecl)*
-ParameterDecl ::= identifier ":" Type
+ParameterDecl ::= identifier (":" | "::") Type
 
 
