@@ -1,11 +1,5 @@
 // single line comments start with //
-/// triple line for document 
-
-// Constants with bee assignment
-DAYS_IN_YEAR ::= 365
-
-// Enumeration Constants
-enum Days {SUN, MON, TUE, WED, THU, FRI, SAT}
+/// documentation comments, support markdown notation
 
 // Functions
 
@@ -21,7 +15,7 @@ fn add_two(x: T, y: T) -> T
 }
 
 struct Rectangle : Shape
-    $(T: Numerical) where T.value is Countable
+    $(T: Numerical) where T.value:Countable
 {
 
 }
