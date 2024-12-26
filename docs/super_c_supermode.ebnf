@@ -8,16 +8,14 @@ SourceFile    ::= TopLevelDecl+
 //Declarations
 TopLevelDecl  ::= FunctionDecl
 
-FunctionDecl  ::= "fn" FunctionName TypeParameters? Signature TypeConstraints? FunctionBody?
+FunctionDecl  ::= "fn" FunctionName Signature TypeParameters? FunctionBody?
 FunctionName  ::= identifier
 FunctionBody  ::= Block
 
 //.Type parameter declarations
-TypeParameters ::= "$" "(" TypeParameter ("," TypeParemeter)* ")"
-TypeParameter  ::= identifer (":" Type)?
-
-TypeConstraints ::= "where" TypeConstraint ("," TypeConstraint)*
-TypeConstraint  ::= identifier ":" Type
+TypeParameters ::= "$" "(" TypeConstraint ("," TypeConstraint)* ")" TypeConstraintClause?
+TypeConstraint ::= identifer ":" Type
+TypeConstraintClause ::= "where" Expression
 
 //Types
 
