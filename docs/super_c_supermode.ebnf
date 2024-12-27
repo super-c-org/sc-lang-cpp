@@ -3,11 +3,13 @@
 // W3C's EBNF notation https://www.w3.org/TR/2008/REC-xml-20081126/#sec-notation
 // Generate diagram at https://www.bottlecaps.de/rr/ui
 
+//STARTING RULES
 SourceFile    ::= TopLevelDecl+
 
-//Declarations
+//DECLARATIONS
 TopLevelDecl  ::= FunctionDecl
 
+//.Function declarations
 FunctionDecl  ::= "fn" FunctionName Signature TypeParameters? FunctionBody?
 FunctionName  ::= identifier
 FunctionBody  ::= Block
@@ -17,7 +19,7 @@ TypeParameters ::= "$" "(" TypeConstraint ("," TypeConstraint)* ")" TypeConstrai
 TypeConstraint ::= identifer ":" Type
 TypeConstraintClause ::= "where" Expression
 
-//Types
+//TYPES
 
 //.Function types
 FunctionType  ::= "fn" Signature
@@ -28,3 +30,39 @@ ParameterList ::= ParameterDecl ("," ParameterDecl)*
 ParameterDecl ::= identifier (":" | "::") Type
 
 
+
+//STATEMENTS
+
+//EXPRESSIONS
+
+//LEXICAL STRUCTURE
+
+//.letters and digits
+newline        ::= // the Unicode code point U+000A
+unicode_char   ::= // an arbitrary Unicode code point except newline
+unicode_letter ::= // a Unicode code point categorized as "Letter"
+unicode_digit  ::= // a Unicode code point categorized as "Number, decimal digit"
+digit          ::= [0-9]
+
+letter         ::= unicode_letter | "_"
+
+//.Comments
+// Line comments start with the character sequence // and stop at the end of the line
+// General comments start with the character sequence /* and stop with the first subsequent character sequence */
+
+//.Tokens
+
+identifier ::= letter (letter | unicode_digit)*
+
+keyword    ::= "fn" 
+             | "int" 
+             | "return" 
+
+punctuator ::= "{" 
+             | "}"
+             | ";"
+
+literal    ::= numeric_literal | 
+numeric_literal ::= integer_literal | floating_point_literal
+integer_literal ::= decimal_lit | binary_lit | octal_lit | hex_lit
+decimal_lit     ::= [1-9] ("'"? digit)*
