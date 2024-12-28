@@ -1,5 +1,5 @@
 #pragma once
 
-namespace SCL {
+namespace SCL::Lex {
 
-} //namespace SCL
+} //namespace SCL::Lex
