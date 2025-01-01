@@ -2,7 +2,7 @@
 
 #include <cstdint>
 
-namespace scl::Lex {
+namespace scl::lex {
 
 enum class TokenKind : std::uint8_t {
     Error,
@@ -22,4 +22,4 @@ enum class TokenKind : std::uint8_t {
     FileEnd
 };
 
-}  // namespace scl::Lex
+}  // namespace scl::lex
