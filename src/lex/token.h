@@ -22,6 +22,4 @@ enum class TokenKind : std::uint8_t {
     FileEnd
 };
 
-
-
 } // namespace SCL::Lex

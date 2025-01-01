@@ -3,15 +3,16 @@
 #include "llvm/Support/InitLLVM.h"
 #include "llvm/Support/raw_ostream.h"
 
-auto main(int argc, char* argv[]) -> int
-{
+auto main(int argc, char *argv[]) -> int {
     llvm::InitLLVM init_llvm(argc, argv);
     llvm::errs().tie(&llvm::outs());
     llvm::outs() << "Hello, this is super-C compiler\n";
 
     namespace cl = llvm::cl;
-    cl::opt<std::string> OutputFilename("o", cl::desc("Specify output filename"), cl::value_desc("filename"));
-    cl::opt<std::string> InputFilename(cl::Positional, cl::desc("<input file>"), cl::Required);
+    cl::opt<std::string> OutputFilename(
+        "o", cl::desc("Specify output filename"), cl::value_desc("filename"));
+    cl::opt<std::string> InputFilename(cl::Positional, cl::desc("<input file>"),
+                                       cl::Required);
 
     cl::ParseCommandLineOptions(argc, argv);
 
