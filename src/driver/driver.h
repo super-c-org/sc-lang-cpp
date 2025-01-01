@@ -1,5 +1,5 @@
 #pragma once
 
-namespace SCL {
+namespace scl {
 auto runCompiler() -> void;
-} // namespace SCL
+} // namespace scl
