@@ -25,6 +25,7 @@ target_include_directories(scc PRIVATE
 )
 target_sources(scc PRIVATE
   src/main.cpp
+  src/driver/driver.cpp
 )
 target_link_libraries(scc PRIVATE
   calculator

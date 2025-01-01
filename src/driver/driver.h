@@ -1,5 +1,5 @@
 #pragma once
 
 namespace scl {
-auto RunCompiler() -> void;
+auto RunCompiler(int argc, char* argv[]) -> int;
 }  // namespace scl
