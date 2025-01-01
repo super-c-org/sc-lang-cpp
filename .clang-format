@@ -1,4 +1,4 @@
-#LLVM coding convention
+#https://llvm.org/docs/CodingStandards.html
 ---
 BasedOnStyle: LLVM
 UseTab: Never
