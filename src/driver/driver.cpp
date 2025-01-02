@@ -1,18 +1,46 @@
 
+#include <string>
 #include "llvm/Support/CommandLine.h"
 
 namespace scl {
-auto RunCompiler(int argc, char* argv[]) -> int {
+
+struct CompileOptions {
+    std::string output_filename;
+    llvm::SmallVector<std::string, 1> input_filenames;
+};
+
+static auto ParseArguments(int argc, char* argv[]) -> CompileOptions {
     namespace cl = llvm::cl;
+
     cl::opt<std::string> output_filename(
         "o", cl::desc("Specify output filename"), cl::value_desc("filename"));
-    cl::opt<std::string> input_filename(cl::Positional,
-                                        cl::desc("<input file>"), cl::Required);
+    cl::list<std::string> input_filenames(
+        cl::Positional, cl::desc("<input files>"), cl::OneOrMore);
 
     cl::ParseCommandLineOptions(argc, argv);
 
-    printf("%s \n", input_filename.c_str());
-    printf("%s \n", output_filename.c_str());
+    CompileOptions options;
+
+    options.output_filename = output_filename;
+
+    for (auto& input_file : input_filenames) {
+        options.input_filenames.emplace_back(input_file);
+    }
+
+    return options;
+}
+
+static auto Compile() -> void;
+
+auto RunCompiler(int argc, char* argv[]) -> int {
+    CompileOptions options = ParseArguments(argc, argv);
+
+    llvm::outs() << "first input file is " << options.input_filenames[0]
+                 << "\n";
+    
+    llvm::outs() << "Output file is " << options.output_filename
+                 << "\n";
+    
     return 0;
 }
 }  // namespace scl
