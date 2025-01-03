@@ -12,7 +12,7 @@ TopLevelDecl  ::= FunctionDecl
 //.Function declarations
 FunctionDecl  ::= "fn" FunctionName GenericParameters? Signature GenericConstraints? FunctionBody?
 FunctionName  ::= identifier
-FunctionBody  ::= Block
+FunctionBody  ::= Block | "=" expression
 
 //.Generic parameters
 GenericParameters ::= "$" "(" identifer ("," identifier)* ")" 
