@@ -10,13 +10,13 @@ SourceFile    ::= TopLevelDecl+
 TopLevelDecl  ::= FunctionDecl
 
 //.Function declarations
-FunctionDecl  ::= "fn" FunctionName GenericParameters? Signature GenericConstraintClause? FunctionBody?
+FunctionDecl  ::= "fn" FunctionName GenericParameters? Signature GenericConstraints? FunctionBody?
 FunctionName  ::= identifier
 FunctionBody  ::= Block
 
 //.Generic parameters
 GenericParameters ::= "$" "(" identifer ("," identifier)* ")" 
-GenericConstraintClause ::= "if" Expression
+GenericConstraints ::= "if" Expression
 
 //TYPES
 
