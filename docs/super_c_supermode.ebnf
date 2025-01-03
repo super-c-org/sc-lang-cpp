@@ -31,6 +31,11 @@ ParameterDecl ::= identifier (":" | "::") Type
 
 
 //STATEMENTS
+Block         ::= "{" StatementList "}"
+StatementList ::= (Statement (";" Statement)*)? ";"?
+Statement     ::= ReturnStmt
+
+ReturnStmt    ::= "return" Expression? 
 
 //EXPRESSIONS
 
