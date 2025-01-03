@@ -10,14 +10,13 @@ SourceFile    ::= TopLevelDecl+
 TopLevelDecl  ::= FunctionDecl
 
 //.Function declarations
-FunctionDecl  ::= "fn" FunctionName Signature TypeParameters? FunctionBody?
+FunctionDecl  ::= "fn" FunctionName GenericParameters? Signature GenericConstraintClause? FunctionBody?
 FunctionName  ::= identifier
 FunctionBody  ::= Block
 
-//.Type parameter declarations
-TypeParameters ::= "$" "(" TypeConstraint ("," TypeConstraint)* ")" TypeConstraintClause?
-TypeConstraint ::= identifer ":" Type
-TypeConstraintClause ::= "where" Expression
+//.Generic parameters
+GenericParameters ::= "$" "(" identifer ("," identifier)* ")" 
+GenericConstraintClause ::= "if" Expression
 
 //TYPES
 
