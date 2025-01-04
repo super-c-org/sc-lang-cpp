@@ -4,15 +4,14 @@
 // Generate diagram at https://www.bottlecaps.de/rr/ui
 
 //STARTING RULES
-SourceFile    ::= TopLevelDecl+
+SourceFile    ::= TopLevelDecl+ EOF
 
 //DECLARATIONS
 TopLevelDecl  ::= FunctionDecl
 
 //.Function declarations
-FunctionDecl  ::= "fn" FunctionName GenericParameters? Signature GenericConstraints? FunctionBody?
-FunctionName  ::= identifier
-FunctionBody  ::= Block | "=" expression
+FunctionDecl  ::= "fn" identifer GenericParameters? Signature GenericConstraints? FunctionBody?
+FunctionBody  ::= Block | "=" Expression
 
 //.Generic parameters
 GenericParameters ::= "$" "(" identifer ("," identifier)* ")" 
@@ -24,20 +23,26 @@ GenericConstraints ::= "if" Expression
 FunctionType  ::= "fn" Signature
 Signature     ::= Parameters Result?
 Result        ::= "->" Type
-Parameters    ::= "(" ParameterList? ")"
-ParameterList ::= ParameterDecl ("," ParameterDecl)*
-ParameterDecl ::= identifier (":" | "::") Type
+Parameters    ::= "(" (Parameter ("," Parameter)*)? ")"
+Parameter     ::= identifier (":" | "::") Type
 
 
 
 //STATEMENTS
-Block         ::= "{" StatementList "}"
-StatementList ::= (Statement (";" Statement)*)? ";"?
+Block         ::= "{" Statements "}"
+Statements    ::= (Statement (";"+ Statement)*)? ";"*
 Statement     ::= ReturnStmt
 
 ReturnStmt    ::= "return" Expression? 
 
 //EXPRESSIONS
+Expression    ::= UnaryExpr | Expression binary_op Expression
+UnaryExpr     ::= PrimaryExpr | unary_op UnaryExpr
+
+PrimaryExpr   ::= Operand 
+Operand       ::= literal
+
+
 
 //LEXICAL STRUCTURE
 
@@ -59,14 +64,13 @@ letter         ::= unicode_letter | "_"
 identifier ::= letter (letter | unicode_digit)*
 
 keyword    ::= "fn" 
-             | "int" 
              | "return" 
 
 punctuator ::= "{" 
              | "}"
              | ";"
 
-literal    ::= numeric_literal | 
-numeric_literal ::= integer_literal | floating_point_literal
-integer_literal ::= decimal_lit | binary_lit | octal_lit | hex_lit
+literal    ::= BasicLit
+BasicLit   ::= int_lit 
+int_lit    ::= decimal_lit | binary_lit | octal_lit | hex_lit
 decimal_lit     ::= [1-9] ("'"? digit)*
