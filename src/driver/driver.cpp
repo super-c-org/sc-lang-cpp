@@ -4,12 +4,13 @@
 
 namespace scl {
 
+namespace {
 struct CompileOptions {
     std::string output_filename;
     llvm::SmallVector<std::string, 1> input_filenames;
 };
 
-static auto ParseArguments(int argc, char* argv[]) -> CompileOptions {
+auto ParseArguments(int argc, char* argv[]) -> CompileOptions {
     namespace cl = llvm::cl;
 
     cl::opt<std::string> output_filename(
@@ -17,7 +18,18 @@ static auto ParseArguments(int argc, char* argv[]) -> CompileOptions {
     cl::list<std::string> input_filenames(
         cl::Positional, cl::desc("<input files>"), cl::OneOrMore);
 
-    cl::ParseCommandLineOptions(argc, argv);
+    auto& Map = cl::getRegisteredOptions();
+    // Change --help description
+    assert(Map.count("help") > 0);
+    Map["help"]->setDescription(
+        R"(For questions, issues, or bug reports, please use our GitHub project:
+    https://github.com/super-c-org/sc-lang-cpp)");
+
+    // Set version
+    llvm::cl::SetVersionPrinter(
+        [](llvm::raw_ostream& OS) { OS << "Super C Compiler v2025.1.alpha\n"; });
+
+    cl::ParseCommandLineOptions(argc, argv, "Super C Compiler");
 
     CompileOptions options;
 
@@ -30,6 +42,8 @@ static auto ParseArguments(int argc, char* argv[]) -> CompileOptions {
     return options;
 }
 
+}  // namespace
+
 static auto Compile() -> void;
 
 auto RunCompiler(int argc, char* argv[]) -> int {
@@ -37,10 +51,9 @@ auto RunCompiler(int argc, char* argv[]) -> int {
 
     llvm::outs() << "first input file is " << options.input_filenames[0]
                  << "\n";
-    
-    llvm::outs() << "Output file is " << options.output_filename
-                 << "\n";
-    
+
+    llvm::outs() << "Output file is " << options.output_filename << "\n";
+
     return 0;
 }
 }  // namespace scl
