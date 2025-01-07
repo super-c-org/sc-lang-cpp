@@ -9,5 +9,5 @@ auto main(int argc, char* argv[]) -> int {
     // llvm::errs().tie(&llvm::outs());
     // llvm::outs() << "Hello, this is super-C compiler\n";
 
-    return scl::RunCompiler(argc, argv);
+    return scl::RunDriver(argc, argv);
 }

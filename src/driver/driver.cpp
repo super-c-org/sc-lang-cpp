@@ -1,14 +1,12 @@
 
 #include <string>
+
+#include "compile.h"
 #include "llvm/Support/CommandLine.h"
 
 namespace scl {
 
 namespace {
-struct CompileOptions {
-    std::string output_filename;
-    llvm::SmallVector<std::string, 1> input_filenames;
-};
 
 auto ParseArguments(int argc, char* argv[]) -> CompileOptions {
     namespace cl = llvm::cl;
@@ -26,8 +24,9 @@ auto ParseArguments(int argc, char* argv[]) -> CompileOptions {
     https://github.com/super-c-org/sc-lang-cpp)");
 
     // Set version
-    llvm::cl::SetVersionPrinter(
-        [](llvm::raw_ostream& OS) { OS << "Super C Compiler v2025.1.alpha\n"; });
+    llvm::cl::SetVersionPrinter([](llvm::raw_ostream& OS) {
+        OS << "Super C Compiler v2025.1.alpha\n";
+    });
 
     cl::ParseCommandLineOptions(argc, argv, "Super C Compiler");
 
@@ -44,15 +43,14 @@ auto ParseArguments(int argc, char* argv[]) -> CompileOptions {
 
 }  // namespace
 
-static auto Compile() -> void;
+auto RunDriver(int argc, char* argv[]) -> int {
 
-auto RunCompiler(int argc, char* argv[]) -> int {
     CompileOptions options = ParseArguments(argc, argv);
 
-    llvm::outs() << "first input file is " << options.input_filenames[0]
-                 << "\n";
+    auto fs = llvm::vfs::getRealFileSystem();
+    
 
-    llvm::outs() << "Output file is " << options.output_filename << "\n";
+    Compile(options, *fs);
 
     return 0;
 }
