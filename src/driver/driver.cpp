@@ -1,9 +1,17 @@
 
-#include <string>
 #include "driver.h"
+
+#include <string>
+
 #include "llvm/Support/CommandLine.h"
 
 namespace scl {
+struct CompileOptions {
+    std::string output_filename;
+    llvm::SmallVector<std::string, 1> input_filenames;
+};
+
+
 
 namespace {
 
@@ -40,15 +48,33 @@ auto ParseArguments(int argc, char* argv[]) -> CompileOptions {
     return options;
 }
 
+struct DriverEnv {
+    // The filesystem for source code.
+    llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem> fs;
+
+    // Standard output
+    llvm::raw_pwrite_stream& output_stream;
+    // Error output
+    llvm::raw_pwrite_stream& error_stream;
+};
+
+auto CompileFile(llvm::StringRef input_filename, const CompileOptions& options,
+                 DriverEnv& driver_env) -> DriverResult {
+    return false;
+}
+
 }  // namespace
 
 auto RunDriver(int argc, char* argv[],
                llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem> fs,
                llvm::raw_pwrite_stream& output_stream,
                llvm::raw_pwrite_stream& error_stream) -> DriverResult {
+    auto driver_env = DriverEnv{
+        .fs = fs, .output_stream = output_stream, .error_stream = error_stream};
 
     CompileOptions options = ParseArguments(argc, argv);
-    
+
+    auto result = CompileFile(options.input_filenames[0], options, driver_env);
 
     return true;
 }

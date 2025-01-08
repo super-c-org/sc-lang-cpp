@@ -3,11 +3,6 @@
 
 namespace scl {
 
-struct CompileOptions {
-    std::string output_filename;
-    llvm::SmallVector<std::string, 1> input_filenames;
-};
-
 using DriverResult = bool;
 auto RunDriver(int argc, char* argv[],
                llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem> fs,
