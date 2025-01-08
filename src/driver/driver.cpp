@@ -1,7 +1,6 @@
 
 #include <string>
-
-#include "compile.h"
+#include "driver.h"
 #include "llvm/Support/CommandLine.h"
 
 namespace scl {
@@ -43,15 +42,14 @@ auto ParseArguments(int argc, char* argv[]) -> CompileOptions {
 
 }  // namespace
 
-auto RunDriver(int argc, char* argv[]) -> int {
+auto RunDriver(int argc, char* argv[],
+               llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem> fs,
+               llvm::raw_pwrite_stream& output_stream,
+               llvm::raw_pwrite_stream& error_stream) -> DriverResult {
 
     CompileOptions options = ParseArguments(argc, argv);
-
-    auto fs = llvm::vfs::getRealFileSystem();
     
 
-    Compile(options, *fs);
-
-    return 0;
+    return true;
 }
 }  // namespace scl
