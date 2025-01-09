@@ -1,3 +1,3 @@
 #pragma once
 
-namespace scl::Lex {}  // namespace scl::Lex
+namespace scl::lex {}  // namespace scl::lex
