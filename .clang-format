@@ -1,6 +1,7 @@
 # https://google.github.io/styleguide/cppguide.html
 ---
 BasedOnStyle: GOOGLE
+ColumnLimit: 100
 UseTab: Never
 TabWidth: 4
 IndentWidth: 4
