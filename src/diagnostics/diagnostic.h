@@ -4,5 +4,11 @@
 
 namespace scl {
 
+struct Diagnostic {
+    explicit Diagnostic(llvm::SourceMgr& srcMgr) : srcMgr_(srcMgr) {}
 
-} // namespace scl
+ private:
+    llvm::SourceMgr& srcMgr_;
+};
+
+}  // namespace scl
