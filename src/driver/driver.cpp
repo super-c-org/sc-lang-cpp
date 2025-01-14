@@ -72,8 +72,12 @@ auto RunDriver(int argc, char* argv[],
     auto driver_env = DriverEnv{
         .fs = fs, .output_stream = output_stream, .error_stream = error_stream};
 
+    // step 1
     CompileOptions options = ParseArguments(argc, argv);
 
+    // step 2 - create build graph
+
+    // step 3 - compile files per the build graph
     auto result = CompileFile(options.input_filenames[0], options, driver_env);
 
     return true;
