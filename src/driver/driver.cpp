@@ -1,6 +1,7 @@
 
 #include "driver.h"
 #include <string>
+#include <utility>
 #include "diagnostics/diagnostic.h"
 #include "llvm/Support/CommandLine.h"
 
@@ -53,7 +54,7 @@ struct DriverEnv {
     llvm::raw_pwrite_stream& error_stream;
 };
 
-auto CompileSource(llvm::StringRef input_filename, const CompileOptions& options,
+auto CompileSource(const llvm::MemoryBuffer* srcBuffer, const CompileOptions& options,
                    DriverEnv& driver_env) -> DriverResult {
     return false;
 }
@@ -78,11 +79,32 @@ auto RunDriver(int argc, char* argv[], llvm::IntrusiveRefCntPtr<llvm::vfs::FileS
 
     auto file = fs->openFileForRead(options.input_filenames[0]);
     if (file.getError()) {
-        error_stream << llvm::formatv("error opening file {0} for read", options.input_filenames[0]) << '\n';
+        error_stream << llvm::formatv("error opening file {0} for read", options.input_filenames[0])
+                     << '\n';
         return false;
     }
 
-    auto result = CompileSource(options.input_filenames[0], options, driver_env);
+    auto file_status = (*file)->status();
+    if (file_status.getError()) {
+        error_stream << llvm::formatv("error statting file: {0}", options.input_filenames[0])
+                     << '\n';
+        return false;
+    }
+
+    auto is_regular_file = file_status->isRegularFile();
+    auto file_size = is_regular_file ? file_status->getSize() : -1;
+
+    auto source_buffer = (*file)->getBuffer(options.input_filenames[0], file_size, is_regular_file);
+
+    if (source_buffer.getError()) {
+        error_stream << llvm::formatv("error creating source buffer for file: {0}", options.input_filenames[0])
+                     << '\n';
+        return false;
+    }
+
+    auto source_buffer_id = srcMgr.AddNewSourceBuffer(std::move(*source_buffer), llvm::SMLoc());
+
+    auto result = CompileSource(srcMgr.getMemoryBuffer(source_buffer_id), options, driver_env);
 
     return true;
 }
