@@ -15,7 +15,7 @@ auto main(int argc, char* argv[]) -> int {
     if (result) {
         return 0;
     } else {
-        llvm::errs() << "compilation error";
+        llvm::errs() << "compilation error" << '\n';
         return 1;
     }
 }
