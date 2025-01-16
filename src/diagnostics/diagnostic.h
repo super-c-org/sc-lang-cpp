@@ -19,7 +19,7 @@ struct Diagnostic {
         total_errors_++;
     }
 
-    void PrintMessages() {
+    void PrintMessages() const {
         for (auto& msg : messages_) {
             srcMgr_.PrintMessage(msg.location, msg.kind, msg.description);
         }
