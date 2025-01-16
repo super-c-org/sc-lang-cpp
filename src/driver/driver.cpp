@@ -4,6 +4,7 @@
 #include <utility>
 #include "diagnostics/diagnostic.h"
 #include "llvm/Support/CommandLine.h"
+#include "compile_cmd.h"
 
 namespace scl {
 struct CompileOptions {
@@ -102,9 +103,9 @@ auto RunDriver(int argc, char* argv[], llvm::IntrusiveRefCntPtr<llvm::vfs::FileS
         return false;
     }
 
-    auto source_buffer_id = srcMgr.AddNewSourceBuffer(std::move(*source_buffer), llvm::SMLoc());
+    auto source_buffer_idx = srcMgr.AddNewSourceBuffer(std::move(*source_buffer), llvm::SMLoc());
 
-    auto result = CompileSource(srcMgr.getMemoryBuffer(source_buffer_id), options, driver_env);
+    auto result = CompileSource(srcMgr.getMemoryBuffer(source_buffer_idx), options, driver_env);
 
     return true;
 }
