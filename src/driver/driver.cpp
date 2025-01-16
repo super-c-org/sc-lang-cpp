@@ -48,7 +48,7 @@ auto RunDriver(int argc, char* argv[], llvm::IntrusiveRefCntPtr<llvm::vfs::FileS
     -> DriverResult {
     auto options = ParseArguments(argc, argv);
 
-    auto env = DriverEnv{.fs = fs, .output_stream = output_stream, .error_stream = error_stream};
+    auto env = SystemEnv{.fs = fs, .output_stream = output_stream, .error_stream = error_stream};
 
     auto compile_result = RunCompileCmd(options, env);
 

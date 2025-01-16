@@ -4,6 +4,6 @@
 namespace scl {
 
 using CompileResult = bool;
-auto RunCompileCmd(const CommandLineOptions& options, const DriverEnv& env) -> CompileResult;
+auto RunCompileCmd(const CommandLineOptions& options, const SystemEnv& env) -> CompileResult;
 
 }  // namespace scl

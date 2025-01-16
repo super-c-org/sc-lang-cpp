@@ -8,7 +8,7 @@ struct CommandLineOptions {
     llvm::SmallVector<std::string, 1> input_filenames;
 };
 
-struct DriverEnv {
+struct SystemEnv {
     // The filesystem for source code.
     llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem> fs;
 
