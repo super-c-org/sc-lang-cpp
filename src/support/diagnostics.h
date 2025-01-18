@@ -4,7 +4,6 @@
 #include "llvm/ADT/Twine.h"
 #include "llvm/Support/SMLoc.h"
 
-
 namespace scl {
 
 enum class DiagKind : int8_t {
@@ -44,7 +43,7 @@ struct Diagnostic {
     Diagnostic() = default;
     // Diagnostic with no location (e.g. file not found, command line arg error).
     Diagnostic(llvm::StringRef filename, DiagKind Knd, llvm::StringRef Msg)
-        : Filename(filename), LineNo(-1), ColumnNo(-1), Kind(Knd), Message(Msg) {}
+        : Filename(filename), line_num(-1), column_num(-1), Kind(Knd), Message(Msg) {}
 
     // Diagnostic with a location.
     Diagnostic(llvm::SMLoc L, llvm::StringRef FN, int Line, int Col, DiagKind Kind,
@@ -54,8 +53,8 @@ struct Diagnostic {
 
     llvm::SMLoc getLoc() const { return Loc; }
     llvm::StringRef getFilename() const { return Filename; }
-    int getLineNo() const { return LineNo; }
-    int getColumnNo() const { return ColumnNo; }
+    int getLineNo() const { return line_num; }
+    int getColumnNo() const { return column_num; }
     DiagKind getKind() const { return Kind; }
     llvm::StringRef getMessage() const { return Message; }
     llvm::StringRef getLineContents() const { return LineContents; }
@@ -71,8 +70,8 @@ struct Diagnostic {
  private:
     llvm::SMLoc Loc;
     std::string Filename;
-    int LineNo{0};
-    int ColumnNo{0};
+    int32_t line_num{-1};
+    int32_t column_num{-1};
     DiagKind Kind{DiagKind::DK_Error};
     std::string Message;
     std::string LineContents;

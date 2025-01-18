@@ -1,20 +1,22 @@
 
 #include "diagnostics.h"
-#include "llvm/ADT/STLExtras.h"
+
 #include "llvm/ADT/ArrayRef.h"
+#include "llvm/ADT/STLExtras.h"
 
 namespace scl {
 
 static const size_t TabStop = 8;
 
 /// diagnostic implementation
-Diagnostic::Diagnostic(llvm::SMLoc L, llvm::StringRef FN, int Line, int Col, DiagKind Kind, llvm::StringRef Msg,
-           llvm::StringRef LineStr, llvm::ArrayRef<std::pair<unsigned, unsigned>> ranges,
-           llvm::ArrayRef<DiagFixIt> fixIts)
+Diagnostic::Diagnostic(llvm::SMLoc L, llvm::StringRef FN, int Line, int Col, DiagKind Kind,
+                       llvm::StringRef Msg, llvm::StringRef LineStr,
+                       llvm::ArrayRef<std::pair<unsigned, unsigned>> ranges,
+                       llvm::ArrayRef<DiagFixIt> fixIts)
     : Loc(L),
       Filename(std::string(FN)),
-      LineNo(Line),
-      ColumnNo(Col),
+      line_num(Line),
+      column_num(Col),
       Kind(Kind),
       Message(Msg),
       LineContents(LineStr),
@@ -22,8 +24,8 @@ Diagnostic::Diagnostic(llvm::SMLoc L, llvm::StringRef FN, int Line, int Col, Dia
       FixIts(fixIts) {
     llvm::sort(FixIts);
 }
-static void buildFixItLine(std::string& CaretLine, std::string& FixItLine, llvm::ArrayRef<DiagFixIt> FixIts,
-                           llvm::ArrayRef<char> SourceLine) {
+static void buildFixItLine(std::string& CaretLine, std::string& FixItLine,
+                           llvm::ArrayRef<DiagFixIt> FixIts, llvm::ArrayRef<char> SourceLine) {
     if (FixIts.empty()) {
         return;
     }
@@ -71,7 +73,8 @@ static void buildFixItLine(std::string& CaretLine, std::string& FixItLine, llvm:
         // FIXME: This assertion is intended to catch unintended use of multibyte
         // characters in fixits. If we decide to do this, we'll have to track
         // separate byte widths for the source and fixit lines.
-        // assert((size_t)llvm::sys::locale::columnWidth(Fixit.getText()) == Fixit.getText().size());
+        // assert((size_t)llvm::sys::locale::columnWidth(Fixit.getText()) ==
+        // Fixit.getText().size());
 
         // This relies on one byte per column in our fixit hints.
         unsigned LastColumnModified = HintCol + Fixit.getText().size();
