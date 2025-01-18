@@ -8,11 +8,12 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 # LLVM config
 find_package(LLVM REQUIRED CONFIG)
+llvm_map_components_to_libnames(LLVM_LIBS support core)
 
 message(STATUS "Found LLVM ${LLVM_PACKAGE_VERSION}, build type ${LLVM_BUILD_TYPE}")
 message(STATUS "Using LLVMConfig.cmake in: ${LLVM_DIR}")
-
-llvm_map_components_to_libnames(LLVM_LIBS support core)
+message(STATUS "Using LLVM INCLUDE in: ${LLVM_INCLUDE_DIRS}")
+message(STATUS "Using LLVM LIBS in: ${LLVM_LIBS}")
 
 # Libraries
 add_library(calculator src/calc.cpp)
@@ -26,6 +27,8 @@ target_include_directories(scc PRIVATE
 target_sources(scc PRIVATE
   src/main.cpp
   src/driver/driver.cpp
+  src/driver/compile_cmd.cpp
+  src/support/diagnostics.cpp
 )
 target_link_libraries(scc PRIVATE
   calculator

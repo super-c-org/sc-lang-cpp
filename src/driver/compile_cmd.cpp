@@ -1,11 +1,9 @@
 #include "compile_cmd.h"
-
-#include "diagnostics/diagnostic.h"
+#include "llvm/Support/FormatVariadic.h"
+#include "support/diagnostics.h"
 
 namespace scl {
 auto RunCompileCmd(const CommandLineOptions& options, const SystemEnv& env) -> CompileResult {
-    llvm::SourceMgr srcMgr;
-    Diagnostic diag(srcMgr);
 
     // TODO: step 1 - create build graph
 
@@ -37,7 +35,7 @@ auto RunCompileCmd(const CommandLineOptions& options, const SystemEnv& env) -> C
         return false;
     }
 
-    auto source_buffer_idx = srcMgr.AddNewSourceBuffer(std::move(*source_buffer), llvm::SMLoc());
+    DiagKind kind;
 
     return true;
 }

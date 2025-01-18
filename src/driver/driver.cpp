@@ -1,8 +1,6 @@
 
 #include "driver.h"
-
 #include "compile_cmd.h"
-#include "diagnostics/diagnostic.h"
 #include "driver_settings.h"
 #include "llvm/Support/CommandLine.h"
 
