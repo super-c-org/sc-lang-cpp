@@ -3,6 +3,9 @@
 #include "support/diagnostics.h"
 
 namespace scl {
+
+struct CompilationUnit {};
+
 auto RunCompileCmd(const CommandLineOptions& options, const SystemEnv& env) -> CompileResult {
 
     // TODO: step 1 - create build graph
@@ -34,6 +37,8 @@ auto RunCompileCmd(const CommandLineOptions& options, const SystemEnv& env) -> C
                          << '\n';
         return false;
     }
+
+    auto buffer = std::move(*source_buffer);
 
     DiagKind kind;
 
