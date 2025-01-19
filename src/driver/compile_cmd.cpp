@@ -1,6 +1,6 @@
 #include "compile_cmd.h"
 #include "llvm/Support/FormatVariadic.h"
-#include "support/diagnostics.h"
+// #include "support/diagnostics.h"
 
 namespace scl {
 
@@ -39,8 +39,6 @@ auto RunCompileCmd(const CommandLineOptions& options, const SystemEnv& env) -> C
     }
 
     auto buffer = std::move(*source_buffer);
-
-    DiagKind kind;
 
     return true;
 }
