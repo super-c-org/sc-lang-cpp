@@ -1,24 +1,38 @@
 #pragma once
 
+#include "llvm/Support/SourceMgr.h"
+#include "llvm/Support/raw_ostream.h"
+
 namespace scl {
 
+struct Diagnostic {
 
+};
 
-struct DiagnosticsEngine {
-    // template <typename... Args>
-    // void ShowError(llvm::SMLoc location, const char* format, Args&&... arguments) {
-    //     auto msg = llvm::formatv(format, std::forward<Args>(arguments)...).str();
-    //     messages_.emplace_back(Message{location, DiagKind::DK_Error, msg});
-    //     total_errors_++;
-    // }
+// TODO: change this to concurrent
+struct DiagEngine {
+    explicit DiagEngine(llvm::raw_pwrite_stream& error_stream) : error_stream_(error_stream) {}
 
-    // void PrintMessages() const {
-    //     for (auto& msg : messages_) {
-    //         srcMgr_.PrintMessage(msg.location, msg.kind, msg.description);
-    //     }
-    // }
+    void ReportError(llvm::SMDiagnostic diag) {
+        diagnostics_.emplace_back(diag);
+        total_errors_++;
+        if (total_errors_ > 10) {
+            error_stream_ << "Too many errors ... \n";
+            PrintDiagnostics();
+            exit(total_errors_);
+        }
+    }
+
+    void PrintDiagnostics() const {
+        for (auto& diag : diagnostics_) {
+            diag.print(nullptr, error_stream_);
+        }
+    }
+
  private:
-    // size_t total_errors_{0};
+    llvm::raw_pwrite_stream& error_stream_;
+    size_t total_errors_{0};
+    llvm::SmallVector<llvm::SMDiagnostic, 10> diagnostics_;
 };
 
 }  // namespace scl

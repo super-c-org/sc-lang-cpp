@@ -8,7 +8,7 @@ namespace scl {
 
 namespace {
 
-auto ParseArguments(int argc, char* argv[]) -> CommandLineOptions {
+auto ParseArguments(int argc, const char* argv[]) -> CommandLineOptions {
     namespace cl = llvm::cl;
 
     cl::opt<std::string> output_filename("o", cl::desc("Specify output filename"),
@@ -41,7 +41,7 @@ auto ParseArguments(int argc, char* argv[]) -> CommandLineOptions {
 
 }  // namespace
 
-auto RunDriver(int argc, char* argv[], llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem> fs,
+auto RunDriver(int argc, const char* argv[], llvm::IntrusiveRefCntPtr<llvm::vfs::FileSystem> fs,
                llvm::raw_pwrite_stream& output_stream, llvm::raw_pwrite_stream& error_stream)
     -> DriverResult {
     auto options = ParseArguments(argc, argv);
@@ -50,6 +50,6 @@ auto RunDriver(int argc, char* argv[], llvm::IntrusiveRefCntPtr<llvm::vfs::FileS
 
     auto compile_result = RunCompileCmd(options, env);
 
-    return true;
+    return 0;
 }
 }  // namespace scl

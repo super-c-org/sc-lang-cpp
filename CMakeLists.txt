@@ -28,7 +28,6 @@ target_sources(scc PRIVATE
   src/main.cpp
   src/driver/driver.cpp
   src/driver/compile_cmd.cpp
-  src/support/diagnostics.cpp
 )
 target_link_libraries(scc PRIVATE
   calculator
