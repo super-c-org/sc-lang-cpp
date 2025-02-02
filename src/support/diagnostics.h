@@ -4,7 +4,7 @@
 
 namespace scl {
 
-enum class DiagLevel: int8_t {
+enum class DiagLevel : int8_t {
     DK_Error,
     DK_Warning,
 };
@@ -14,15 +14,14 @@ struct Diagnostic {
     // Name of the file or buffer that this diagnostic refers to.
     std::string filename;
 
-    // 1-based line number. -1 indicates unknown; other values are unused.
-    int32_t line_number{-1};
+    // 1-based line number. 0 indicates unknown
+    uint16_t line_number{0};
 
-    // 1-based column number. -1 indicates unknown; other values are unused.
-    int32_t column_number{-1};
+    // 1-based column number. 0 indicates unknown
+    uint16_t column_number{0};
 
-    // The number of columns corresponding to the location in the line,
-    // starting at column_number. Should always be at least 1.
-    int32_t length{1};
+    // The underlined ranges for the code snippet
+    llvm::SmallVectorImpl<std::pair<uint16_t, uint16_t>> ranges;
 
     DiagLevel level{DiagLevel::DK_Error};
 
@@ -34,7 +33,7 @@ struct Diagnostic {
     std::string note;
 
     // The related source code line
-    std::string line;
+    std::string sourceline;
 };
 
 // TODO: change this to concurrent
@@ -51,13 +50,13 @@ struct DiagEngine {
         }
     }
 
-    void PrintDiagnostic(const Diagnostic& diag) const;
-    
     void PrintDiagnostics() const {
         for (auto& diag : diagnostics_) {
             // TODO
         }
     }
+
+    void PrintDiagnostic(const Diagnostic& diag) const;
 
  private:
     llvm::raw_pwrite_stream& error_stream_;
