@@ -21,7 +21,7 @@ struct Diagnostic {
     uint16_t column_number{0};
 
     // The underlined ranges for the code snippet
-    llvm::SmallVectorImpl<std::pair<uint16_t, uint16_t>> ranges;
+    llvm::SmallVector<std::pair<uint16_t, uint16_t>> ranges;
 
     DiagLevel level{DiagLevel::DK_Error};
 
